@@ -3,10 +3,7 @@
   "private": true,
   "scripts": {
     "client": "npm run dev --prefix client",
-    "server": "npm run server --prefix server",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "server": "npm run dev --prefix server"
   },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  }
+  "devDependencies": {}
 }

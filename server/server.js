@@ -10,7 +10,11 @@ const app = express();
 const port  = process.env.Port || 4000
 
 connectDB();
-const allowedOrigins =['http://localhost:5173']
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://mern-auth-app-n7ld.onrender.com',
+  'https://mern-auth-app-zbd2.netlify.app'
+]
 
 app.use(express.json())
 app.use(cookieParser());
