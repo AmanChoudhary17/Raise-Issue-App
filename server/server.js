@@ -34,7 +34,8 @@ app.use(cookieParser());
 
 // Add CORS debugging middleware
 app.use((req, res, next) => {
-    console.log(${req.method} ${req.path} - Origin: ${req.get('Origin')});
+    console.log(`${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
+
     next();
 });
 
@@ -69,4 +70,5 @@ app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 
 
-app.listen(port ,()=>console.log(Server started on PORT :${port}));
+app.listen(port, () => console.log(`Server started on PORT : ${port}`));
+
