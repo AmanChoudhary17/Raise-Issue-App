@@ -1,20 +1,28 @@
 import issueModel from '../models/issueModel.js';
-
+import { uploadImageToCloudinary } from '../utils/cloudinary.js';
 export const createIssue = async (req, res) => {
-    try {
-        const { title, image, description } = req.body;
+  console.log("Body:", req.body);
+console.log("File:", req.file);
+  try {
+    const { title, description } = req.body;
+    let imageUrl = '';
 
-        const newIssue = await issueModel.create({
-            title,
-            image,
-            description,
-            postedBy: req.userId
-        });
-
-        res.status(201).json({ success: true, data: newIssue });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
+    if (req.file) {
+      const uploadResult = await uploadImageToCloudinary(req.file);
+      imageUrl = uploadResult.secure_url;
     }
+
+    const newIssue = await issueModel.create({
+      title,
+      image: imageUrl,
+      description,
+      postedBy: req.userId,
+    });
+
+    res.status(201).json({ success: true, data: newIssue });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 };
 
 export const getAllIssues = async (req, res) => {

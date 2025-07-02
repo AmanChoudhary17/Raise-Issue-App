@@ -29,7 +29,7 @@ console.log('Allowed CORS origins:', finalOrigins);
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(express.urlencoded({ extended: true }));
 // ✅ CORS debugging middleware
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
@@ -62,6 +62,6 @@ app.get('/', (req, res) => res.send('API is working'));
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
-app.use('/api', issueRouter); // ✅ ADD THIS LINE TO MOUNT ISSUE ROUTES
+app.use('/api/issue', issueRouter); // ✅ ADD THIS LINE TO MOUNT ISSUE ROUTES
 
 app.listen(port, () => console.log(`Server started on PORT : ${port}`));

@@ -6,6 +6,8 @@
     "server": "npm run dev --prefix server"
   },
   "dependencies": {
-    "lucide-react": "^0.525.0"
+    "cloudinary": "^2.7.0",
+    "lucide-react": "^0.525.0",
+    "multer": "^2.0.1"
   }
 }

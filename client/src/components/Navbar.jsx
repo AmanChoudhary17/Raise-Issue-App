@@ -48,6 +48,12 @@ const Navbar = () => {
       const { data } = await axios.post(backendUrl + '/api/auth/logout');
       data.success && setIsLoggedin(false);
       data.success && setUserData(false);
+      // add reloading the page to reflect changes
+      if (data.success) {
+        toast.success(data.message);
+        window.location.reload();
+      }
+
     } catch (error) {
       toast.error(error.message);
     }
@@ -67,8 +73,10 @@ const Navbar = () => {
       />
 
       {userData ? (
-        <div className='w-8 h-8 flex justify-center items-center rounded-full bg-black text-white relative group'>
-          {userData.name[0].toUpperCase()}
+        <div className='px-3 py-2 text-sm flex justify-center items-center rounded-full bg-black text-white relative group'>
+          {userData.name.toUpperCase()}
+
+
           <div className='absolute hidden group-hover:block right-0 top-0 z-10 text-black rounded pt-10'>
             <ul className='list-none m-0 p-2 bg-gray-100 text-sm'>
               {!userData.isAccountVerified && (
