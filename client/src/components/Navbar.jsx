@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import logo from '../assets/logo.png'; // adjust the path based on your folder structure
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -64,13 +65,16 @@ const Navbar = () => {
   const showAllIssues = location.pathname === '/issue/my';
 
   return (
-    <div className='w-full flex justify-between items-center p-4 sm:p-6 sm:px-24 absolute top-0'>
-      <img
-        onClick={() => navigate('/')}
-        src={assets.logo}
-        alt=""
-        className='w-28 sm:w-32 cursor-pointer'
-      />
+    <div className='w-full flex justify-between items-center p-4 sm:p-6 sm:px-24 absolute top-0 '>
+      
+
+      <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+  <img
+    src={logo}
+    alt="Rise Your Issue Logo"
+    className="w-20 sm:w-18 md:w-25 transition-transform duration-200 hover:scale-105 rounded-full"
+  />
+</div>
 
       {userData ? (
         <div className='px-3 py-2 text-sm flex justify-center items-center rounded-full bg-black text-white relative group'>
