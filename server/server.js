@@ -17,7 +17,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
     'https://localhost:5173',
-    'https://mern-auth-app-roan.vercel.app/',
+    'https://mern-auth-app-roan.vercel.app',
 ];
 
 if (process.env.ADDITIONAL_FRONTEND_URLS) {
