@@ -5,14 +5,14 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
-import issueRouter from "./routes/issueRoutes.js"; // ✅ NEW: import issue routes
+import issueRouter from "./routes/issueRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 connectDB();
 
-// ✅ CORS configuration
+// ✅ CORS configuration (move before all middleware)
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
@@ -28,24 +28,11 @@ if (process.env.ADDITIONAL_FRONTEND_URLS) {
 const finalOrigins = allowedOrigins.filter(Boolean);
 console.log('Allowed CORS origins:', finalOrigins);
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
-// ✅ CORS debugging middleware
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
-    next();
-});
-
+// ✅ CORS comes BEFORE other middleware
 app.use(cors({
     origin: function (origin, callback) {
         console.log('CORS check for origin:', origin);
-        if (!origin) {
-            console.log('Allowing request with no origin');
-            return callback(null, true);
-        }
-
-        if (finalOrigins.includes(origin)) {
+        if (!origin || finalOrigins.includes(origin)) {
             console.log('Origin allowed:', origin);
             callback(null, true);
         } else {
@@ -58,11 +45,21 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
 }));
 
-// ✅ API endpoints
-app.get('/', (req, res) => res.send('API is working'));
+// ✅ Other middleware comes AFTER CORS
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
+// Debugging CORS
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
+    next();
+});
+
+// Routes
+app.get('/', (req, res) => res.send('API is working'));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
-app.use('/api/issue', issueRouter); // ✅ ADD THIS LINE TO MOUNT ISSUE ROUTES
+app.use('/api/issue', issueRouter);
 
 app.listen(port, () => console.log(`Server started on PORT : ${port}`));
