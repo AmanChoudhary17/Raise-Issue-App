@@ -12,13 +12,6 @@ const port = process.env.PORT || 4000;
 
 connectDB();
 
-// ✅ CORS configuration (move before all middleware)
-const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://localhost:5173',
-    'https://mern-auth-app-roan.vercel.app',
-];
 
 if (process.env.ADDITIONAL_FRONTEND_URLS) {
     const additionalUrls = process.env.ADDITIONAL_FRONTEND_URLS.split(',');
@@ -27,23 +20,13 @@ if (process.env.ADDITIONAL_FRONTEND_URLS) {
 
 const finalOrigins = allowedOrigins.filter(Boolean);
 console.log('Allowed CORS origins:', finalOrigins);
-
-// ✅ CORS comes BEFORE other middleware
 app.use(cors({
-    origin: function (origin, callback) {
-        console.log('CORS check for origin:', origin);
-        if (!origin || finalOrigins.includes(origin)) {
-            console.log('Origin allowed:', origin);
-            callback(null, true);
-        } else {
-            console.log('CORS blocked origin:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
-}));
+      origin: "https://mern-auth-app-roan.vercel.app",
+    //   origin: FRONTEND_URL,
+   
+      optionsSuccessStatus: 200,
+      credentials: true 
+    }));
 
 // ✅ Other middleware comes AFTER CORS
 app.use(express.json());
