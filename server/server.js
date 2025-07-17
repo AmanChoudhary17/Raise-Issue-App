@@ -13,13 +13,10 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 
-if (process.env.ADDITIONAL_FRONTEND_URLS) {
-    const additionalUrls = process.env.ADDITIONAL_FRONTEND_URLS.split(',');
-    allowedOrigins.push(...additionalUrls);
-}
 
-const finalOrigins = allowedOrigins.filter(Boolean);
-console.log('Allowed CORS origins:', finalOrigins);
+
+
+
 app.use(cors({
       origin: "https://mern-auth-app-roan.vercel.app",
     //   origin: FRONTEND_URL,
